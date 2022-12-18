@@ -4,36 +4,46 @@ import  {useState,useEffect }  from  'react' ;
 
 function App() {
 
+const album= "sertanejo"
+
+const [items, setItems] = useState();
 const [accessToken, setAccessToken] = useState();
 const client_id="659e836e43834da0a0926084bbc78d69"
 const client_secret="08de3c67f0f04ffaa34db051b44bdd9b"
+
 useEffect(()=>{
-  let authParameters = {
+  let parametro1 = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: 'grant_type=client_credentials&client_id=' + client_id + '&client_secret=' + client_secret
   };
-  fetch('https://accounts.spotify.com/api/token', authParameters)
+  fetch('https://accounts.spotify.com/api/token', parametro1)
   .then(result => result.json())
-  .then(data => setAccessToken(data.access_token))
+  .then(data => setAccessToken(data.access_token));
 
-  let busca = fetch(`https://api.spotify.com/v1/search?q=sertanejo&type=artist`, {
+  let parametro2 ={ 
     method: 'GET',
     headers: {
       "Accept": "application/json",
       "Content-Type": "application/json",
       "Authorization": "Bearer " + accessToken
-    }
+  }};
+  fetch('https://api.spotify.com/v1/search?q='+album+'&type=artist',parametro2)
+  .then(busca => busca.json())
+  .then(parse => parse.artists)
+  .then(res=> setItems(res.items))
+} );
     
-} , []);
-console.log(busca)
-});
-  
+    console.log(items)
   return (
     <div className="App">
-    
+    <div>
+      <ul>
+       
+      </ul>
+    </div>    
     </div>
   );
 }
