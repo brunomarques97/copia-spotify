@@ -6,8 +6,8 @@ function App() {
 
 const album= "sertanejo"
 
-const [items, setItems] = useState();
-const [accessToken, setAccessToken] = useState();
+const [Items, setItems] = useState([]);
+const [accessToken, setAccessToken]=useState("");
 const client_id="659e836e43834da0a0926084bbc78d69"
 const client_secret="08de3c67f0f04ffaa34db051b44bdd9b"
 
@@ -21,28 +21,37 @@ useEffect(()=>{
   };
   fetch('https://accounts.spotify.com/api/token', parametro1)
   .then(result => result.json())
-  .then(data => setAccessToken(data.access_token));
+  .then(data =>setAccessToken(data.access_token))
+} , []);
 
-  let parametro2 ={ 
-    method: 'GET',
-    headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + accessToken
-  }};
-  fetch('https://api.spotify.com/v1/search?q='+album+'&type=artist',parametro2)
-  .then(busca => busca.json())
-  .then(parse => parse.artists)
-  .then(res=> setItems(res.items))
-} );
+    let parametro2 ={ 
+      method: 'GET',
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + accessToken
+    }};
+    fetch('https://api.spotify.com/v1/search?q='+album+'&type=artist',parametro2)
+    .then(busca => busca.json())
+    .then(parse=>setItems(parse.artists.items))
     
-    console.log(items)
   return (
     <div className="App">
     <div>
-      <ul>
-       
-      </ul>
+    <ul className="card-grid">
+        {Items.map((item) => (
+          <li>
+              <div className="card-image">
+                  <img src="" alt={item.name} />
+              </div>
+              <div className="card-content">
+                  <h2 className="card-name">{item.name}</h2>
+                  <p></p>
+              </div>
+      </li>
+  
+        ))}   
+    </ul>
     </div>    
     </div>
   );
