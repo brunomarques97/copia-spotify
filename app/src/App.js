@@ -34,7 +34,7 @@ useEffect(()=>{
     fetch('https://api.spotify.com/v1/search?q='+album+'&type=artist',parametro2)
     .then(busca => busca.json())
     .then(parse=>setItems(parse.artists.items))
-    
+
   return (
     <div className="App">
     <div>
@@ -43,10 +43,10 @@ useEffect(()=>{
           <li>
               <div className="card-image">
                   <img src="" alt={item.name} />
+                  {console.log(item.images[0])}
               </div>
               <div className="card-content">
                   <h2 className="card-name">{item.name}</h2>
-                  <p></p>
               </div>
       </li>
   
