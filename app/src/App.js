@@ -4,12 +4,11 @@ import  {useState,useEffect }  from  'react' ;
 
 function App() {
 
-const album= "sertanejo"
-
 const [Items, setItems] = useState([]);
 const [accessToken, setAccessToken]=useState("");
 const client_id="659e836e43834da0a0926084bbc78d69"
 const client_secret="08de3c67f0f04ffaa34db051b44bdd9b"
+const [q, setQ] = useState("");
 
 useEffect(()=>{
   let parametro1 = {
@@ -31,12 +30,24 @@ useEffect(()=>{
         "Content-Type": "application/json",
         "Authorization": "Bearer " + accessToken
     }};
-    fetch('https://api.spotify.com/v1/search?q='+album+'&type=artist',parametro2)
+    fetch('https://api.spotify.com/v1/search?q='+q+'&type=artist',parametro2)
     .then(busca => busca.json())
     .then(parse=>setItems(parse.artists.items))
 
   return (
     <div className="App">
+      <div className="search-wrapper">
+                      <label htmlFor="search-form">
+                          <input
+                              type="search"
+                              name="search-form"
+                              id="search-form"
+                              className="search-input"
+                              placeholder="Search for..."
+                              value={q}
+                              onChange={(e) => setQ(e.target.value)} />
+                      </label>
+      </div>
     <div>
     <ul className="card-grid">
         {Items.map((item,i) => (
