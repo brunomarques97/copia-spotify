@@ -53,7 +53,9 @@ useEffect(()=>{
         {Items.map((item,i) => (
           <li key={i}>
               <div className="card-image" >
-                  <img src="" alt={item.name} />
+                  <img src={item.images[0].url} alt={item.name} />
+              </div>
+              <div className='bloco'>
                   <h2 className="card-name">{item.name}</h2>
                   <a href={item.external_urls.spotify}>click aqui</a>
               </div>
