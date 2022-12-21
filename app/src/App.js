@@ -44,12 +44,13 @@ useEffect(()=>{
               <div className="card-image" >
                   <img src="" alt={item.name} />
                   <h2 className="card-name">{item.name}</h2>
+                  <a href={item.external_urls.spotify}>click aqui</a>
               </div>
       </li>
   
         ))}   
     </ul>
-    </div>    
+    </div>
     </div>
   );
 }
