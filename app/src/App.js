@@ -39,13 +39,10 @@ useEffect(()=>{
     <div className="App">
     <div>
     <ul className="card-grid">
-        {Items.map((item) => (
-          <li>
-              <div className="card-image">
+        {Items.map((item,i) => (
+          <li key={i}>
+              <div className="card-image" >
                   <img src="" alt={item.name} />
-                  {console.log(item.images[0])}
-              </div>
-              <div className="card-content">
                   <h2 className="card-name">{item.name}</h2>
               </div>
       </li>
