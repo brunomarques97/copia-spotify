@@ -3,7 +3,7 @@ import  {useState,useEffect }  from  'react' ;
 
 
 function App() {
-const [Album, setAlbum] = useState([]);
+const [Albums, setAlbums] = useState([]);
 const [Items, setItems] = useState([]);
 const [accessToken, setAccessToken]=useState("");
 const client_id="659e836e43834da0a0926084bbc78d69"
@@ -32,10 +32,10 @@ useEffect(()=>{
     }};
     fetch('https://api.spotify.com/v1/search?q='+q+'&type=album,artist&include_external=audio' ,parametro2)
     .then(busca => busca.json())
-    .then(album =>setAlbum(album.albums.items))
-    .catch(artista=> setItems(artista.artists.items))
+    .then(res=>[setAlbums(res.albums.items),setItems(res.artists.items)])
     
-
+    
+    console.log(Albums)
   return (
     <div className="App">
       <div className="search-wrapper">
@@ -53,7 +53,7 @@ useEffect(()=>{
       <h2>Albuns</h2>
     <div>
     <ul className="card-grid">  
-        {Album.map((item,i) => (
+        {Albums.map((item,i) => (
           <li key={i}>
               <div className="card-image" >
                   <img src={item.images[0].url} alt={item.name} />
