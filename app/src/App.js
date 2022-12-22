@@ -3,7 +3,7 @@ import  {useState,useEffect }  from  'react' ;
 
 
 function App() {
-
+const [Album, setAlbum] = useState([]);
 const [Items, setItems] = useState([]);
 const [accessToken, setAccessToken]=useState("");
 const client_id="659e836e43834da0a0926084bbc78d69"
@@ -30,9 +30,11 @@ useEffect(()=>{
         "Content-Type": "application/json",
         "Authorization": "Bearer " + accessToken
     }};
-    fetch('https://api.spotify.com/v1/search?q='+q+'&type=artist',parametro2)
+    fetch('https://api.spotify.com/v1/search?q='+q+'&type=album,artist&include_external=audio' ,parametro2)
     .then(busca => busca.json())
-    .then(parse=>setItems(parse.artists.items))
+    .then(album =>setAlbum(album.albums.items))
+    .catch(artista=> setItems(artista.artists.items))
+    
 
   return (
     <div className="App">
@@ -43,11 +45,29 @@ useEffect(()=>{
                               name="search-form"
                               id="search-form"
                               className="search-input"
-                              placeholder="Search for..."
+                              placeholder="Pesquise aqui..."
                               value={q}
                               onChange={(e) => setQ(e.target.value)} />
                       </label>
       </div>
+      <h2>Albuns</h2>
+    <div>
+    <ul className="card-grid">  
+        {Album.map((item,i) => (
+          <li key={i}>
+              <div className="card-image" >
+                  <img src={item.images[0].url} alt={item.name} />
+              </div>
+              <div className='bloco'>
+                  <h3 className="card-name">{item.name}</h3>
+                  <a href={item.external_urls.spotify}>click aqui</a>
+              </div>
+      </li>
+  
+        ))}   
+    </ul>
+    </div>
+    <h2>Artistas</h2>
     <div>
     <ul className="card-grid">
         {Items.map((item,i) => (
@@ -56,7 +76,7 @@ useEffect(()=>{
                   <img src={item.images[0].url} alt={item.name} />
               </div>
               <div className='bloco'>
-                  <h2 className="card-name">{item.name}</h2>
+                  <h3 className="card-name">{item.name}</h3>
                   <a href={item.external_urls.spotify}>click aqui</a>
               </div>
       </li>
